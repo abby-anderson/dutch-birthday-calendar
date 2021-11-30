@@ -18,10 +18,29 @@ class Api::ContactsController < ApplicationController
         end
     end
 
-    # going to fill these out later
-    # GET /api/contacts/:id -- show method
-    # PATCH /api/contacts/:id -- update method
-    # DELETE /api/contacts/:id -- destroy method
+    # GET /api/contacts/:id
+    def show
+        contact = Contact.find_by(id: params[:id])
+        render json: contact, status: :ok
+
+    end
+
+
+    # PATCH /api/contacts/:id
+    def update
+        contact = Contact.find_by(id: params[:id])
+        contact.update(contact_params)
+        render json: contact, status: :ok
+
+    end
+
+    # DELETE /api/contacts/:id
+    def destroy
+        contact = Contact.find_by(id: params[:id])
+        contact.destroy
+        head :no_content
+
+    end
 
     private 
 
