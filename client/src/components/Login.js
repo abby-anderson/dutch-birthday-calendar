@@ -1,7 +1,10 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Login ({setCurrentUser}) {
+    let navigate = useNavigate();
+    const [error, setError] = useState(null);
 
     const [loginFormData, setLoginFormData] = useState({
         username: "",
@@ -34,34 +37,38 @@ function Login ({setCurrentUser}) {
                 response.json().then(data => {
                     console.log('response is okay!', data)
                     setCurrentUser(data)
-                    // will want to push us to homepage (and/or calendar on refactor)
+                    navigate('/')
                 })
             }
             else {
                 response.json().then(data => {
-                    console.log('response was not okay', data)
-                    // set error state
-                    // then display below
+                    console.log('response was not okay', data.error)
+                    setError(data.error)
                 })
             }
         })
     }
 
+
     return (
         <div className="login-component">
-            <h3>inside login component!</h3>
-
-            <form className="login-form" onSubmit={handleSubmit}>
-                <label>Username</label>
-                <input type="text" name="username" value={loginFormData.username} onChange={handleChange} />
-
-                <label>Password</label>
-                <input type="password" name="password" value={loginFormData.password} onChange={handleChange} />
-
-                <input type="submit" />
-
+            <form onSubmit={handleSubmit}>
+                <div class="mb-3">
+                    <label for="exampleInputUsername1" class="form-label">Username</label>
+                    <input type="username" class="form-control" id="exampleInputUsername1" name="username" value={loginFormData.username} onChange={handleChange} />
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="password" value={loginFormData.password} onChange={handleChange}  />
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
             </form>
 
+            {!!error > 0 ? 
+            <div class="alert alert-danger" role="alert">
+            {error}
+            </div>
+            : null }
 
         </div>
     )

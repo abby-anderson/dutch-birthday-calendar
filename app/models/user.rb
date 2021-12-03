@@ -7,5 +7,4 @@ class User < ApplicationRecord
 
     has_many :contacts
     has_many :important_dates, through: :contacts
-    # is the above right??
 end

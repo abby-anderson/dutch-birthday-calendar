@@ -8,9 +8,12 @@ import Signup from './Signup';
 import UserProfile from './UserProfile';
 import ContactList from './ContactList';
 import Calendar from './Calendar';
+import Modal from 'react-modal'
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
+  const [contacts, setContacts] = useState(null)
+  // const [filteredContacts, setFilteredContacts] = useState(null)
 
   // autologin fetch, to keep us logged in while refreshing
   // fetch GET to userscontroller #show method
@@ -26,27 +29,44 @@ function App() {
     })
   }, [])
 
+  // fetching all contacts, to filter for currentUser ownership and then pass down to children components
+  useEffect(() => {
+      fetch('/api/contacts')
+      .then(response => response.json())
+      .then(data => {
+          setContacts(data)
+      })
+  }, [])
+
+
+
+
 
   return (
     <div className="app">
 
       <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
 
-      <Routes>
 
-        <Route path="/" element={<Home />} />
-          
-        <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
-          
-        <Route path="/signup" element={<Signup setCurrentUser={setCurrentUser} />} />
+        <Routes>
 
-        <Route path="/userprofile" element={<UserProfile currentUser={currentUser} />} />
-          
-        <Route path="/contactlist" element={<ContactList currentUser={currentUser} />} />
+          <Route path="/" element={<Home />} />
+            
+          <Route path="/login" element={<Login setCurrentUser={setCurrentUser} />} />
+            
+          <Route path="/signup" element={<Signup setCurrentUser={setCurrentUser} />} />
 
-        <Route path="/calendar" element={<Calendar currentUser={currentUser} />} />
-          
-      </Routes>
+          <Route path="/userprofile" element={<UserProfile currentUser={currentUser} />} />
+            
+          <Route path="/contactlist" element={<ContactList 
+          // setFilteredContacts={setFilteredContacts} 
+          contacts={contacts} currentUser={currentUser} />} />
+
+          <Route path="/calendar" element={<Calendar 
+          // filteredContacts={filteredContacts}
+          contacts={contacts} currentUser={currentUser} />} />
+
+        </Routes>
 
     </div>
   );
