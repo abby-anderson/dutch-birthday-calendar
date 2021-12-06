@@ -4,20 +4,26 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import Modal from 'react-modal'
 import { Navigate, useNavigate } from "react-router";
+import ContactEvent from "./ContactEvent";
 
 function Calendar ({currentUser, contacts, }) {
     let navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [newEventArrayState, setNewEventArrayState] = useState([])
+    const [eventArrayState, setEventArrayState] = useState([])
     const [newEventForm, setNewEventForm] = useState({
         newEventDate: null,
         newEventTitle: null
     })
-    const [eventArray, setEventArray] = useState([
+    const eventArray = [
         {
             title: 'madelyns\' bday',
             date: new Date('2021/11/28'),
-            allDay: true
+            allDay: true,
+            extendedProps: {
+                contact_id: 17,
+                date_type: "birthday",
+                notes: "sushi bday party?"
+            }
         },
         {
             title: 'bambi\'s bday',
@@ -29,10 +35,8 @@ function Calendar ({currentUser, contacts, }) {
             date: new Date('2021/12/25'),
             allDay: true
         }
-    ])
+    ]
     
-    console.log('currentuser', currentUser)
-    console.log('contacts', contacts)
 
     function openModal (event) {
         setModalIsOpen(true, event)
@@ -48,7 +52,8 @@ function Calendar ({currentUser, contacts, }) {
     }
 
     function handleEventClick (event) {
-        alert(`${event.event.title} is today!`)
+        alert(`${event.event.title} is today!, ${event.event.extendedProps.notes}`)
+        
         // openModal();
     }
 
@@ -58,7 +63,7 @@ function Calendar ({currentUser, contacts, }) {
         )
     }
 
-    function createContactEvents () {
+    function createFilteredContactEvents () {
         // console.log('inside createcontactevents fxn', contacts)
 
         const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
@@ -92,6 +97,32 @@ function Calendar ({currentUser, contacts, }) {
     }
 
 
+    // function createContactEvents () {
+    //     console.log(contacts)
+
+        
+    // }
+
+    function renderContacts () {
+        // filter through all contacts and only keep the current user's contacts
+        const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
+        console.log(userContacts)
+
+        return (
+
+            // map through the filtered contacts
+            userContacts.map( contact => {
+                return (
+                    <ContactEvent contact={contact} />
+
+                )
+    
+    
+            })
+        )
+
+    }
+
 
     function handleChange (event) {
         setNewEventForm({
@@ -104,20 +135,27 @@ function Calendar ({currentUser, contacts, }) {
         event.preventDefault();
         console.log('clicked submit')
         console.log(newEventForm)
-        closeModal()
         const newEventObj = {
             title: newEventForm.newEventTitle,
-            date: newEventForm.newEventDate,
+            date: new Date(newEventForm.newEventDate),
             allDay: true
-
+            
         }
-
+        
+        // this really needs to be submitted to backend AND updated in state
+        // but i can't get the state to work
         console.log(newEventObj)
+        eventArray.push(newEventObj)
+        console.log('event array', eventArray)
+        
+        closeModal()
     }
     
     return (
         <>
-            {createContactEvents()}
+            {/* {createFilteredContactEvents()} */}
+            {/* {createContactEvents()} */}
+            {renderContacts()}
             <div className="calendar">
                 <FullCalendar 
                     plugins={[ interactionPlugin, dayGridPlugin ]}

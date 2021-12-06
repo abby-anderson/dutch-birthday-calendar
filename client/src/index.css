@@ -85,3 +85,7 @@ form {
   padding: 25px 50px;
 }
 
+.hidden {
+  display: none;
+}
+

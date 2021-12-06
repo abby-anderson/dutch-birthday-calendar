@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import ContactCard from "./ContactCard";
 import { Navigate, useNavigate } from "react-router";
 
-function ContactList ({currentUser, contacts, }) {
+function ContactList ({currentUser, contacts }) {
     let navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newContactFormData, setNewContactFormData] = useState({
@@ -19,15 +19,14 @@ function ContactList ({currentUser, contacts, }) {
         full_birthdate: null
     })
 
-    // console.log(currentUser)
-    // console.log(currentUser.id)
+    console.log(currentUser)
+    console.log(contacts)
 
 
     function renderContacts () {
         const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
-        // setFilteredContacts(userContacts)
 
-        // console.log(userContacts)
+        console.log(userContacts)
 
         return (
             userContacts.map( contact => {
@@ -37,6 +36,19 @@ function ContactList ({currentUser, contacts, }) {
             })
 
         )
+
+        // function filterContacts () {
+
+        // }
+
+        // return (
+        //         contacts.map( contact => {
+        //             return (
+        //                 <ContactCard key={contact.id} contact={contact} />
+        //             )
+        //         })
+    
+        //     )
 
     }
 
@@ -99,13 +111,13 @@ function ContactList ({currentUser, contacts, }) {
     return (
         <>
             <div className="contact-container container ">
-                <button type="button" class="btn btn-primary" onClick={openModal}>
+                <button type="button" className="btn btn-primary" onClick={openModal}>
                     Add a new contact
                 </button>                
                 {renderContacts()}
             </div>
 
-                <div className="modal-dialog modal-lg">
+                <div className="modal-dialog modal-sm">
                     <Modal currentUser={currentUser} isOpen={modalIsOpen} >
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -114,44 +126,44 @@ function ContactList ({currentUser, contacts, }) {
                                 <div className="modal-body">
 
                                     <form onSubmit={handleSubmit}>
-                                        <div class="mb-3">
-                                            <label class="form-label">First Name</label>
-                                            <input type="text" class="form-control" name="first_name" onChange={handleChange} value={newContactFormData.first_name} />
+                                        <div className="mb-3">
+                                            <label className="form-label">First Name</label>
+                                            <input type="text" className="form-control" name="first_name" onChange={handleChange} value={newContactFormData.first_name} />
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Last Name</label>
-                                            <input type="text" class="form-control" name="last_name" onChange={handleChange} value={newContactFormData.last_name} />
+                                        <div className="mb-3">
+                                            <label className="form-label">Last Name</label>
+                                            <input type="text" className="form-control" name="last_name" onChange={handleChange} value={newContactFormData.last_name} />
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Birth Month</label>
-                                            <input type="text" class="form-control" name="birth_month" onChange={handleChange} value={newContactFormData.birth_month} />
+                                        <div className="mb-3">
+                                            <label className="form-label">Birth Month</label>
+                                            <input type="text" className="form-control" name="birth_month" onChange={handleChange} value={newContactFormData.birth_month} />
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Birth Day</label>
-                                            <input type="text" class="form-control" name="birth_day" onChange={handleChange} value={newContactFormData.birth_day} />
+                                        <div className="mb-3">
+                                            <label className="form-label">Birth Day</label>
+                                            <input type="text" className="form-control" name="birth_day" onChange={handleChange} value={newContactFormData.birth_day} />
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Birth Year</label>
-                                            <input type="text" class="form-control" name="birth_year" onChange={handleChange} value={newContactFormData.birth_year} />
+                                        <div className="mb-3">
+                                            <label className="form-label">Birth Year</label>
+                                            <input type="text" className="form-control" name="birth_year" onChange={handleChange} value={newContactFormData.birth_year} />
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Profile Pic</label>
-                                            <input type="text" class="form-control" name="image_url" onChange={handleChange} value={newContactFormData.image_url} />
+                                        <div className="mb-3">
+                                            <label className="form-label">Profile Pic</label>
+                                            <input type="text" className="form-control" name="image_url" onChange={handleChange} value={newContactFormData.image_url} />
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Notes</label>
-                                            <input type="textarea" placeholder="jot down anything you want to remember, like something they mentioned they'd love to have, or a restaurant they're dying to try!" class="form-control" name="notes" onChange={handleChange} value={newContactFormData.notes} />
+                                        <div className="mb-3">
+                                            <label className="form-label">Notes</label>
+                                            <input type="textarea" placeholder="jot down anything you want to remember, like something they mentioned they'd love to have, or a restaurant they're dying to try!" className="form-control" name="notes" onChange={handleChange} value={newContactFormData.notes} />
                                         </div>
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Full Birthdate</label>
-                                            <input type="date" class="form-control" name="full_birthdate" onChange={handleChange} value={newContactFormData.full_birthdate} />
+                                        <div className="mb-3">
+                                            <label className="form-label">Full Birthdate</label>
+                                            <input type="date" className="form-control" name="full_birthdate" onChange={handleChange} value={newContactFormData.full_birthdate} />
                                         </div>
                                     </form>
                                 </div>

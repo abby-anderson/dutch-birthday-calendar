@@ -26,27 +26,28 @@ function NavBar ({currentUser, setCurrentUser}) {
         <>
 
 
-        <nav class="navbar navbar-expand-sm navbar-light bg-light">
-            <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">📅 </span>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+        <nav className="navbar navbar-expand-sm navbar-light bg-light">
+            <div className="container-fluid">
+                <span className="navbar-brand mb-0 h1">📅 </span>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div className="navbar-nav">
+                    <a className="nav-link active" aria-current="page" href="/">Home</a>
 
                     {currentUser ?
                         <>
-                            <a class="nav-link" href="/userprofile">My Profile</a>
-                            <a class="nav-link" href="/contactlist">My Contacts</a>
-                            <a class="nav-link" href="/calendar">My Calendar</a>
-                            <a class="nav-link" href="/" onClick={handleLogout}>Logout</a>
+                            <a className="nav-link" href="/userprofile">My Profile</a>
+                            <a className="nav-link" href="/contactlist">My Contacts</a>
+                            <a className="nav-link" href="/calendar">My Calendar</a>
+                            <a className="nav-link" href="/datelist">My Dates</a>
+                            <a className="nav-link" href="/" onClick={handleLogout}>Logout</a>
                         </> 
                     :
                         <>
-                            <a class="nav-link" href="/login">Log in</a>
-                            <a class="nav-link" href="/signup">Sign up</a>
+                            <a className="nav-link" href="/login">Log in</a>
+                            <a className="nav-link" href="/signup">Sign up</a>
                         </>
                     }
                     

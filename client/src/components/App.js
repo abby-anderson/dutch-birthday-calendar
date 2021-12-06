@@ -8,12 +8,12 @@ import Signup from './Signup';
 import UserProfile from './UserProfile';
 import ContactList from './ContactList';
 import Calendar from './Calendar';
-import Modal from 'react-modal'
+import Modal from 'react-modal';
+import DateList from './DateList';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [contacts, setContacts] = useState(null)
-  // const [filteredContacts, setFilteredContacts] = useState(null)
 
   // autologin fetch, to keep us logged in while refreshing
   // fetch GET to userscontroller #show method
@@ -34,10 +34,30 @@ function App() {
       fetch('/api/contacts')
       .then(response => response.json())
       .then(data => {
-          setContacts(data)
+
+        setContacts(data)
+
+        // if (currentUser) {
+        //   const userContacts = data.filter( contact => contact.user_id === currentUser.id)
+        //   console.log(userContacts)
+        //   setContacts(userContacts)
+
+        // }
       })
   }, [])
 
+  // function filterContacts () {
+
+
+  //   console.log(contacts)
+  
+  //   // const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
+  //   // console.log(userContacts)
+  //   // setFilteredContacts(userContacts)
+
+  
+
+  // }
 
 
 
@@ -59,11 +79,12 @@ function App() {
           <Route path="/userprofile" element={<UserProfile currentUser={currentUser} />} />
             
           <Route path="/contactlist" element={<ContactList 
-          // setFilteredContacts={setFilteredContacts} 
           contacts={contacts} currentUser={currentUser} />} />
 
           <Route path="/calendar" element={<Calendar 
-          // filteredContacts={filteredContacts}
+          contacts={contacts} currentUser={currentUser} />} />
+
+          <Route path="/datelist" element={<DateList 
           contacts={contacts} currentUser={currentUser} />} />
 
         </Routes>
