@@ -39,7 +39,7 @@ class Api::ImportantDatesController < ApplicationController
     private
 
     def important_date_params
-        params.permit(:contact_id, :date_type, :notes, :image_url, :date)
+        params.permit(:contact_id, :date_type, :notes, :image_url, :date, :date_title)
     end
 
 end

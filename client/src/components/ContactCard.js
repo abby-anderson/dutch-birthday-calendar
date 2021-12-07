@@ -5,11 +5,13 @@ import { useNavigate } from 'react-router';
 
 function ContactCard ({contact}) {
     let navigate = useNavigate();
+    const [contactDOB, setContactDOB] = useState(null);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newDateForm, setNewDateForm] = useState({
         contact_id: contact.id,
         date: null,
         date_type: null,
+        date_title: null,
         image_url: null,
         notes: null
     })
@@ -74,15 +76,19 @@ function ContactCard ({contact}) {
         setModalIsOpen(false)
     }
 
-    function renderImportantDates () {
+    function renderImportantDatesInModal () {
         return (
             contact.important_dates.map( date => {
                 return (
                     <div>
-                        <h3>{date.date_type}</h3>
-                        <h4>{date.date}</h4>
-                        <h5>{date.notes}</h5>
                         <br />
+                        <h4>{date.date_title}</h4>
+                        <h5>Date: {date.date}</h5>
+
+                        <p>Notes: {date.notes}</p>
+                        <p>Picture of invitation:</p>
+                        <img className="img-thumbnail" src={date.image_url} alt="pic of invitation" />
+                        <br /><br />
                     </div>
                 )
             })
@@ -90,43 +96,48 @@ function ContactCard ({contact}) {
         )
     }
 
-    function calculateAge () {
-        const dob = new Date(contact.full_birthdate);
+    
+    // setContactDOB(contact_birthday) -- causes too many rerenders!!! why!!!
+    
+    // let result = [];
+    // let contact_birthday = "";
+    
+    // if (contact.important_dates.length > 0 ) {
+        //     result = contact.important_dates.filter(eachObj => eachObj.date_type === "birthday")
+        //     console.log(result)
+        //     contact_birthday = result[0].date
+        //     console.log(contact_birthday)
+        // } 
+        
+        // ****here's where we start to uncomment!
+        
+    const result = contact.important_dates.filter(eachObj => eachObj.date_type === "birthday")
+    const contact_birthday = result[0].date
+
+    function getBirthdayAndAge () {
+        const dob = new Date(contact_birthday);
         const difference = Date.now() - dob.getTime();
 
         const ageDate = new Date(difference)
         const calculatedAge = Math.abs(ageDate.getUTCFullYear()- 1970)
+        
+            return (
+                <div>
+                    <p>Born on {contact_birthday}</p>
+                    <p>Turning {calculatedAge} this year!</p>
 
-        return <p>Turning {calculatedAge} this year!</p>
+                </div>
+            )
     }
 
     return (
-        <>
+        <div>
             <div className="contact-individual">
                 <h1>{contact.first_name} {contact.last_name}</h1>
-                <p>Born on {contact.full_birthdate}</p>
-                {calculateAge()}
+                {/* also make sure to uncomment this!! */}
+                {getBirthdayAndAge()}
                 <button onClick={openModal}>Expand</button>
             </div>
-
-            {/* <div className="modal-dialog modal-sm">
-                <Modal isOpen={modalIsOpen} >
-                    <div>
-                        <button onClick={handleEditContact}>Edit</button>
-                        <button onClick={handleDeleteContact}>Delete</button>
-                        <button onClick={closeModal}>Close</button>
-                    </div>
-
-                    <div>
-                        <img src={contact.image_url} className="img-thumbnail" />
-                        <h1>{contact.first_name} {contact.last_name}</h1>
-                        <h2>Birthdate: {contact.full_birthdate}</h2>
-                        ------------------------------------
-                        {renderImportantDates()}
-                    </div>
-
-                </Modal>
-            </div> */}
 
 
             <div className="modal-dialog modal-sm">
@@ -137,16 +148,18 @@ function ContactCard ({contact}) {
                         </div>
                         <div className="modal-body">
                             <img src={contact.image_url} className="img-thumbnail" />
-                            <h3>{contact.first_name} {contact.last_name}</h3>
-                            <h3>Birthdate: {contact.full_birthdate}</h3>
+                            <h3>{contact.first_name} {contact.last_name} (<i>{contact.notes}</i>)</h3>
+                            {/* also make sure to uncomment this!! */}
+                            <h3>Birthdate: {contact_birthday}</h3>
                         </div>
                         <div className="modal-body">
-                            <h3 className="modal-title">Important dates:</h3>
-                            {renderImportantDates()}
-                            <form id="editContactForm" className="hidden" onSubmit={handleDateSubmit}>
-                                <h4>Add another important date</h4>
+                            <h3 className="modal-title">{contact.first_name}'s Important Dates:</h3>
+                            {/* also make sure to uncomment this!! */}
+                            {renderImportantDatesInModal()}
 
-                                {/* contact_id = contact.id */}
+            {/* form to add a new important date, is hidden until user clicks add button in modal */}
+                            <form id="addContactForm" className="hidden" onSubmit={handleDateSubmit}>
+                                <h4>Add another important date of {contact.first_name}'s</h4>
 
                                 <div className="mb-3">
                                     <label className="form-label">Date</label>
@@ -156,10 +169,21 @@ function ContactCard ({contact}) {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label className="form-label">Occasion</label>
-                                    <input type="text" className="form-control" name="date_type" 
-                                    onChange={handleDateChange} value={newDateForm.date_type} 
+                                    <label className="form-label">Event Title and Type</label>
+                                    <input type="text" className="form-control" name="date_title" 
+                                    onChange={handleDateChange} value={newDateForm.date_title} 
                                     />
+                                </div>
+
+                                <div className="mb-3">
+                                    <select class="form-select" aria-label="Default select example" name="date_type" onChange={handleDateChange}>
+                                        <option selected>What's the occasion?</option>
+                                        <option value="birthday">Birthday</option>
+                                        <option value="anniversary">Anniversary</option>
+                                        <option value="graduation">Graduation</option>
+                                        <option value="wedding">Wedding</option>
+                                        <option value="other">Other</option>
+                                    </select>
                                 </div>
 
                                 <div className="mb-3">
@@ -192,7 +216,7 @@ function ContactCard ({contact}) {
             </div>
 
 
-        </>
+        </div>
         )
 }
 

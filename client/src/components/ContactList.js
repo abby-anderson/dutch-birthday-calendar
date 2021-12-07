@@ -10,23 +10,28 @@ function ContactList ({currentUser, contacts }) {
     const [newContactFormData, setNewContactFormData] = useState({
         first_name:  null,
         last_name:  null,
-        birth_year:  null,
-        birth_month:  null,
-        birth_day:  null,
         user_id: currentUser ? currentUser.id : null,
         image_url: null,
         notes: null,
-        full_birthdate: null
+    })
+    const [contactID, setContactID] = useState(null)
+    const [newBirthdayFormData, setNewBirthdayFormData] = useState({
+        contact_id: null,
+        date: null,
+        date_type: "birthday",
+        date_title: null,
+        image_url: null,
+        notes: null
     })
 
-    console.log(currentUser)
-    console.log(contacts)
+    // console.log(currentUser)
+    // console.log(contacts)
 
 
     function renderContacts () {
         const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
 
-        console.log(userContacts)
+        // console.log(userContacts)
 
         return (
             userContacts.map( contact => {
@@ -53,14 +58,14 @@ function ContactList ({currentUser, contacts }) {
     }
 
 
-    function handleChange (event) {
+    function handleContactChange (event) {
 
         setNewContactFormData({
             ...newContactFormData, [event.target.name]: event.target.value, user_id: currentUser.id
         })
     }
 
-    function handleSubmit (event) {
+    function handleContactSubmit (event) {
         event.preventDefault();
         console.log(newContactFormData)
         
@@ -78,9 +83,18 @@ function ContactList ({currentUser, contacts }) {
 
             if (response.ok) {
                 response.json().then(data => {
-                    console.log('added contact', data)
-                    setModalIsOpen(false)
-                    window.location.reload()
+                    console.log('added contact and heres the response data', data)
+                    setNewBirthdayFormData({
+                        ...newBirthdayFormData, contact_id: data.id, 
+                    })
+                    let hiddenForm = document.getElementById('hidden-new-date-form')
+                    hiddenForm.classList.toggle('hidden')
+
+                    let hideContactSaveButton = document.getElementById('save-new-contact')
+                    hideContactSaveButton.classList.toggle('hidden')
+
+                    let hiddenBirthdaySaveButton = document.getElementById('save-new-contact-birthday')
+                    hiddenBirthdaySaveButton.classList.toggle('hidden')
                 })
             } else {
                 response.json().then(error => {
@@ -89,7 +103,39 @@ function ContactList ({currentUser, contacts }) {
                 })
             }
         })
+        
     }
+    
+    function handleBirthdaySubmit (event) {
+        event.preventDefault();
+        console.log(newBirthdayFormData)
+
+        // fetch POST to importantdatescontroller #create method
+        fetch('/api/important_dates', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newBirthdayFormData)
+        })
+        .then(response => {
+            if (response.ok) {
+                response.json().then(data => {
+                    console.log(data)
+                    closeModal()
+                    window.location.reload()
+                })
+            }
+        })
+    }
+
+    function handleBirthdayChange (event) {
+        setNewBirthdayFormData({
+            ...newBirthdayFormData, [event.target.name]: event.target.value, 
+        })
+    }
+
+
 
     function openModal () {
         setModalIsOpen(true)
@@ -117,59 +163,77 @@ function ContactList ({currentUser, contacts }) {
                 {renderContacts()}
             </div>
 
+                {/* modal form opens when 'add new contact' button is clicked */}
                 <div className="modal-dialog modal-sm">
                     <Modal currentUser={currentUser} isOpen={modalIsOpen} >
                             <div className="modal-content">
                                 <div className="modal-header">
-                                    <h5 className="modal-title">Add a new contact</h5>
+                                    <h5 className="modal-title">Add a new contact and their birthday!</h5>
                                 </div>
-                                <div className="modal-body">
 
-                                    <form onSubmit={handleSubmit}>
+                                <div className="modal-body">
+                                    {/* this part of the form adds the new Contact object */}
+                                    <form onSubmit={handleContactSubmit}>
                                         <div className="mb-3">
                                             <label className="form-label">First Name</label>
-                                            <input type="text" className="form-control" name="first_name" onChange={handleChange} value={newContactFormData.first_name} />
+                                            <input type="text" className="form-control" name="first_name" onChange={handleContactChange} value={newContactFormData.first_name} />
                                         </div>
 
                                         <div className="mb-3">
                                             <label className="form-label">Last Name</label>
-                                            <input type="text" className="form-control" name="last_name" onChange={handleChange} value={newContactFormData.last_name} />
-                                        </div>
-
-                                        <div className="mb-3">
-                                            <label className="form-label">Birth Month</label>
-                                            <input type="text" className="form-control" name="birth_month" onChange={handleChange} value={newContactFormData.birth_month} />
-                                        </div>
-
-                                        <div className="mb-3">
-                                            <label className="form-label">Birth Day</label>
-                                            <input type="text" className="form-control" name="birth_day" onChange={handleChange} value={newContactFormData.birth_day} />
-                                        </div>
-
-                                        <div className="mb-3">
-                                            <label className="form-label">Birth Year</label>
-                                            <input type="text" className="form-control" name="birth_year" onChange={handleChange} value={newContactFormData.birth_year} />
+                                            <input type="text" className="form-control" name="last_name" onChange={handleContactChange} value={newContactFormData.last_name} />
                                         </div>
 
                                         <div className="mb-3">
                                             <label className="form-label">Profile Pic</label>
-                                            <input type="text" className="form-control" name="image_url" onChange={handleChange} value={newContactFormData.image_url} />
+                                            <input type="text" className="form-control" name="image_url" onChange={handleContactChange} value={newContactFormData.image_url} />
                                         </div>
 
                                         <div className="mb-3">
                                             <label className="form-label">Notes</label>
-                                            <input type="textarea" placeholder="jot down anything you want to remember, like something they mentioned they'd love to have, or a restaurant they're dying to try!" className="form-control" name="notes" onChange={handleChange} value={newContactFormData.notes} />
-                                        </div>
-
-                                        <div className="mb-3">
-                                            <label className="form-label">Full Birthdate</label>
-                                            <input type="date" className="form-control" name="full_birthdate" onChange={handleChange} value={newContactFormData.full_birthdate} />
+                                            <input type="textarea" placeholder="jot down anything you need to remember here" className="form-control" name="notes" onChange={handleContactChange} value={newContactFormData.notes} />
                                         </div>
                                     </form>
+
+                                    {/* this part of the form adds the new Important_Date object */}
+                                    <form className="hidden" id="hidden-new-date-form">
+                                            <div className="mb-3" >
+                                                <label className="form-label">Date</label>
+                                                <input type="date" className="form-control" name="date" 
+                                                onChange={handleBirthdayChange} value={newBirthdayFormData.date} 
+                                                />
+                                            </div>
+
+                                            <div className="mb-3">
+                                                <label className="form-label">Event Title</label>
+                                                <input type="text" className="form-control" name="date_title" 
+                                                onChange={handleBirthdayChange} value={newBirthdayFormData.date_title} 
+                                                />
+                                            </div>
+
+                                            <div className="mb-3">
+                                                <label className="form-label">Image URL</label>
+                                                <input type="text" className="form-control" name="image_url" 
+                                                placeholder="save a pic of the event invite!"
+                                                onChange={handleBirthdayChange} value={newBirthdayFormData.image_url} 
+                                                />
+                                            </div>
+
+                                            <div className="mb-3">
+                                                <label className="form-label">Notes</label>
+                                                <input type="text" className="form-control" name="notes" 
+                                                placeholder="anything you want to jot down?"
+                                                onChange={handleBirthdayChange} value={newBirthdayFormData.notes} 
+                                                />
+                                            </div>
+                                    </form>
                                 </div>
+
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={closeModal}>Cancel</button>
-                                    <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save new contact</button>
+                                    <button type="button" className="btn btn-primary" id="save-new-contact" onClick={handleContactSubmit}>Save new contact</button>
+                                    <button type="button" className="btn btn-primary hidden" id="save-new-contact-birthday" onClick={handleBirthdaySubmit} > Save Contact's birthday</button>
+
                                 </div>
                             </div>
                     </Modal>

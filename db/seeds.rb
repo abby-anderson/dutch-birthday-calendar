@@ -18,18 +18,22 @@ puts '🌱 Seeding contacts...'
 puts '🌱 Seeding important dates...'
 
 # future additions: passing, baby's birth, 
-date_types = ['anniversary', 'graduation', 'marriage']
+date_types = ["anniversary", "graduation", "wedding"]
 
 # create 5 random users
 5.times do
+
+    first_name_instance = Faker::Name.first_name
+    last_name_instance = Faker::Name.unique.last_name 
+
     user = User.create(
-        username: Faker::GreekPhilosophers.unique.name,
-        first_name: Faker::Name.first_name,
-        last_name: Faker::Name.unique.last_name,
+        username: Faker::Games::Pokemon.name,
+        first_name: first_name_instance,
+        last_name: last_name_instance,
         password: 'password',
-        email: Faker::Internet.free_email,
+        email: Faker::Internet.free_email(name: "#{first_name_instance} #{last_name_instance}"),
         phone_number: Faker::PhoneNumber.cell_phone,
-        image_url: Faker::LoremFlickr.image(size: "#{rand(250..300)}x#{rand(250..300)}")
+        image_url: Faker::LoremFlickr.image(size: "#{rand(250..300)}x#{rand(250..300)}"),
     )
 
     # create 10 contacts for each user
@@ -37,13 +41,9 @@ date_types = ['anniversary', 'graduation', 'marriage']
         contact = Contact.create(
             first_name: Faker::Name.first_name,
             last_name: Faker::Name.unique.last_name,
-            birth_year: Faker::Number.within(range: 1990..2000),
-            birth_month: Faker::Number.within(range: 1..12),
-            birth_day: Faker::Number.within(range: 1..28),
             user_id: user.id,
             image_url: Faker::LoremFlickr.image(size: "#{rand(250..300)}x#{rand(250..300)}"),
-            notes: Faker::Lorem.paragraph(sentence_count: 2),
-            full_birthdate: Faker::Date.between(from: '1990-01-01', to: '2000-01-01')
+            notes: "#{Faker::Name.first_name}'s #{Faker::Relationship.familial}",
         )
 
         # for each contact, create 2 important dates
@@ -52,21 +52,25 @@ date_types = ['anniversary', 'graduation', 'marriage']
         1.times do
             important_date_birthday = ImportantDate.create(
                 contact_id: contact.id,
+                date: Faker::Date.birthday(min_age: 20, max_age: 100),
                 date_type: "birthday", 
-                notes: Faker::Lorem.paragraph(sentence_count: 2),
+                date_title: "#{contact.first_name}'s birthday!",
+                notes: "Idea - sign up for a #{Faker::Hobby.activity} class for their birthday this year!",
                 image_url: Faker::LoremFlickr.image(size: "#{rand(250..300)}x#{rand(250..300)}", search_terms: ['invitation']),
-                date: contact.full_birthdate
             )
         end
 
         # then another random special date
         1.times do
+            date_type_instance = date_types.sample(1)
+
             important_date_other = ImportantDate.create(
                 contact_id: contact.id,
-                date_type: date_types.sample(1), 
-                notes: Faker::Lorem.paragraph(sentence_count: 2),
+                date: Faker::Date.between(from: '2010-01-01', to: '2021-01-01'),
+                date_type: date_type_instance[0],
+                date_title: "#{contact.first_name}'s #{date_type_instance[0]}",
+                notes: "Maybe celebratory dinner at #{Faker::Restaurant.name} this year?",
                 image_url: Faker::LoremFlickr.image(size: "#{rand(250..300)}x#{rand(250..300)}", search_terms: ['invitation']),
-                date: Faker::Date.between(from: '2010-01-01', to: '2020-01-01')
             )
             
         end

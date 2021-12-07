@@ -14,6 +14,7 @@ import DateList from './DateList';
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [contacts, setContacts] = useState(null)
+  const [events, setEvents] = useState("")
 
   // autologin fetch, to keep us logged in while refreshing
   // fetch GET to userscontroller #show method
@@ -59,6 +60,9 @@ function App() {
 
   // }
 
+  function handleEvents (eventsArray) {
+    setEvents(eventsArray)
+  }
 
 
 
@@ -85,7 +89,7 @@ function App() {
           contacts={contacts} currentUser={currentUser} />} />
 
           <Route path="/datelist" element={<DateList 
-          contacts={contacts} currentUser={currentUser} />} />
+          contacts={contacts} currentUser={currentUser} handleEvents={handleEvents} />} />
 
         </Routes>
 
