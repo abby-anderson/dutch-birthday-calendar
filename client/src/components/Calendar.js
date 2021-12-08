@@ -1,198 +1,71 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import Modal from 'react-modal'
-import { Navigate, useNavigate } from "react-router";
-import ContactEvent from "./ContactEvent";
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
 
-function Calendar ({currentUser, contacts, }) {
-    let navigate = useNavigate();
-    const [modalIsOpen, setModalIsOpen] = useState(false);
-    const [eventArrayState, setEventArrayState] = useState([])
-    const [newEventForm, setNewEventForm] = useState({
-        newEventDate: null,
-        newEventTitle: null
-    })
-    const eventArray = [
-        {
-            title: 'madelyns\' bday',
-            date: new Date('2021/11/28'),
-            allDay: true,
-            extendedProps: {
-                contact_id: 17,
-                date_type: "birthday",
-                notes: "sushi bday party?"
-            }
-        },
-        {
-            title: 'bambi\'s bday',
-            date: new Date('2021/12/22'),
-            allDay: true
-        },
-        {
-            title: 'greg\'s bday',
-            date: new Date('2021/12/25'),
-            allDay: true
-        }
-    ]
+function Calendar ({contacts, currentUser, handleEvents}) {
+    const [userContacts, setUserContacts] = useState([])
+
+    let eventArray = null;
+    
+    if (contacts && currentUser) {
+        console.log('inside if statement')
+        console.log(currentUser)
+        console.log(contacts)
+
+        const filteredContacts = contacts.filter( contact => contact.user_id === currentUser.id)
+        parseContacts(filteredContacts)
+        // setUserContacts(filteredContacts) --this causes infinite loop rerender
+    }
+    
+    function parseContacts (filteredContacts) {
+        console.log('inside render method', filteredContacts)
+
+        let parsedContacts = filteredContacts.map(contact => {
+            return contact.important_dates.map( date => {
+                    let this_year = "2021"
+                    let original_date = date.date
+                    let sliced_date = original_date.slice(4)
+                    let new_date = this_year.concat(sliced_date)
+
+                return {title: date.date_title, date: new Date(new_date), allDay: true, extendedProps: date}
+            })
+        })
     
 
-    function openModal (event) {
-        setModalIsOpen(true, event)
-    }
-
-    function closeModal () {
-        setModalIsOpen(false)
-    }
-
-    function handleDateClick (event) {
-        // alert(event.dateStr)
-        openModal(event);
+        eventArray = parsedContacts.flat()
+        console.log('event array', eventArray)
     }
 
     function handleEventClick (event) {
-        alert(`${event.event.title} is today!, ${event.event.extendedProps.notes}`)
-        
-        // openModal();
-    }
-
-    if (!contacts) {
-        return (
-            <h2>...Loading 🧘‍♀️ </h2>
-        )
-    }
-
-    function createFilteredContactEvents () {
-        // console.log('inside createcontactevents fxn', contacts)
-
-        const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
-        console.log('usercontacts inside createcontactevents fxn', userContacts)
-
-        // setNewEventArrayState(
-            userContacts.map (contact => {
-                const eventTitle = `${contact.first_name}s bday!`
-                const eventDate = new Date(contact.full_birthdate)
-                const compiledBirthday = `2021/${contact.birth_month}/${contact.birth_day}`
-                console.log('compiled bday', compiledBirthday)
-                // const  month = eventDate.getMonth()
-                // console.log(month, eventDate)
-                
-    
-                // const datestring = eventDate.toLocaleDateString();
-                // console.log(contact.full_birthdate, datestring)
-    
-                console.log('event title and date from map', eventTitle, eventDate)
-    
-                return (
-                    {
-                        title: eventTitle,
-                        date: eventDate, 
-                        allDay: true
-                    }
-                )
-            })
-        // )
-        
-    }
-
-
-    // function createContactEvents () {
-    //     console.log(contacts)
-
-        
-    // }
-
-    function renderContacts () {
-        // filter through all contacts and only keep the current user's contacts
-        const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
-        console.log(userContacts)
-
-        return (
-
-            // map through the filtered contacts
-            userContacts.map( contact => {
-                return (
-                    <ContactEvent contact={contact} />
-
-                )
-    
-    
-            })
-        )
+        console.log(event.event.title)
+        // alert(`${event.event.title} is today!, ${event.event.extendedProps.notes}`)
+        alert(`${event.event.title} is today! To see more, please visit their contact page.`)
 
     }
 
-
-    function handleChange (event) {
-        setNewEventForm({
-            ...newEventForm, [event.target.name]: event.target.value
-        })
-
-    }
-
-    function handleSubmitNewEvent (event) {
-        event.preventDefault();
-        console.log('clicked submit')
-        console.log(newEventForm)
-        const newEventObj = {
-            title: newEventForm.newEventTitle,
-            date: new Date(newEventForm.newEventDate),
-            allDay: true
-            
-        }
-        
-        // this really needs to be submitted to backend AND updated in state
-        // but i can't get the state to work
-        console.log(newEventObj)
-        eventArray.push(newEventObj)
-        console.log('event array', eventArray)
-        
-        closeModal()
-    }
-    
     return (
-        <>
-            {/* {createFilteredContactEvents()} */}
-            {/* {createContactEvents()} */}
-            {renderContacts()}
+        <div>
+
             <div className="calendar">
+                {!!eventArray ? 
                 <FullCalendar 
                     plugins={[ interactionPlugin, dayGridPlugin ]}
                     initialView="dayGridMonth"
-                    editable={true}
+                    // editable={true}
                     selectable={true}
-                    dateClick={handleDateClick}
                     events={eventArray}
                     eventClick={handleEventClick}
+                    dayMaxEvents={true}
                 />
+
+                :
+                <h2>...Loading 🧘‍♀️ </h2>
+                }
             </div>
 
-
-            {/* modal form for adding new important event */}
-            <div className="modal-dialog modal-sm">
-                <Modal isOpen={modalIsOpen} >
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h5 className="modal-title">Add new birthday!</h5>
-                        </div>
-                        <div className="modal-body">
-                            <form>
-                                <label>Date</label>
-                                <input type="date" name="newEventDate" onChange={handleChange} value={newEventForm.newEventDate}  />
-
-                                <label>Title</label>
-                                <input type="text" name="newEventTitle" onChange={handleChange} value={newEventForm.newEventTitle} />
-                            </form>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={closeModal}>Cancel</button>
-                            <button type="button" className="btn btn-primary" onClick={handleSubmitNewEvent}>Save</button>
-                        </div>
-                    </div>
-                </Modal>
-            </div>
-        </>
+        </div>
     )
 }
 

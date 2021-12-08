@@ -1,5 +1,4 @@
 import React from "react";
-import {NavLink} from 'react-router-dom';
 
 function NavBar ({currentUser, setCurrentUser}) {
 
@@ -41,7 +40,6 @@ function NavBar ({currentUser, setCurrentUser}) {
                             <a className="nav-link" href="/userprofile">My Profile</a>
                             <a className="nav-link" href="/contactlist">My Contacts</a>
                             <a className="nav-link" href="/calendar">My Calendar</a>
-                            <a className="nav-link" href="/datelist">My Dates</a>
                             <a className="nav-link" href="/" onClick={handleLogout}>Logout</a>
                         </> 
                     :

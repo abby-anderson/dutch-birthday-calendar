@@ -8,8 +8,6 @@ import Signup from './Signup';
 import UserProfile from './UserProfile';
 import ContactList from './ContactList';
 import Calendar from './Calendar';
-import Modal from 'react-modal';
-import DateList from './DateList';
 
 function App() {
   const [currentUser, setCurrentUser] = useState(null)
@@ -86,9 +84,6 @@ function App() {
           contacts={contacts} currentUser={currentUser} />} />
 
           <Route path="/calendar" element={<Calendar 
-          contacts={contacts} currentUser={currentUser} />} />
-
-          <Route path="/datelist" element={<DateList 
           contacts={contacts} currentUser={currentUser} handleEvents={handleEvents} />} />
 
         </Routes>

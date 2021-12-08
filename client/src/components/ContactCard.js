@@ -9,11 +9,11 @@ function ContactCard ({contact}) {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newDateForm, setNewDateForm] = useState({
         contact_id: contact.id,
-        date: null,
-        date_type: null,
-        date_title: null,
-        image_url: null,
-        notes: null
+        date: "",
+        date_type: "",
+        date_title: "",
+        image_url: "",
+        notes: ""
     })
 
     function handleDeleteContact () {
@@ -63,7 +63,7 @@ function ContactCard ({contact}) {
 
     function handleAddDateClick () {
         console.log('clicked edit', contact)
-        let form = document.getElementById('editContactForm')
+        let form = document.getElementById('addNewDateForm')
         form.classList.toggle('hidden')
         
     }
@@ -87,7 +87,9 @@ function ContactCard ({contact}) {
 
                         <p>Notes: {date.notes}</p>
                         <p>Picture of invitation:</p>
-                        <img className="img-thumbnail" src={date.image_url} alt="pic of invitation" />
+                        <div className="img-thumbnail-container">
+                            <img className="img-thumbnail" src={date.image_url} alt="pic of invitation" />
+                        </div>
                         <br /><br />
                     </div>
                 )
@@ -95,21 +97,6 @@ function ContactCard ({contact}) {
 
         )
     }
-
-    
-    // setContactDOB(contact_birthday) -- causes too many rerenders!!! why!!!
-    
-    // let result = [];
-    // let contact_birthday = "";
-    
-    // if (contact.important_dates.length > 0 ) {
-        //     result = contact.important_dates.filter(eachObj => eachObj.date_type === "birthday")
-        //     console.log(result)
-        //     contact_birthday = result[0].date
-        //     console.log(contact_birthday)
-        // } 
-        
-        // ****here's where we start to uncomment!
         
     const result = contact.important_dates.filter(eachObj => eachObj.date_type === "birthday")
     const contact_birthday = result[0].date
@@ -158,7 +145,7 @@ function ContactCard ({contact}) {
                             {renderImportantDatesInModal()}
 
             {/* form to add a new important date, is hidden until user clicks add button in modal */}
-                            <form id="addContactForm" className="hidden" onSubmit={handleDateSubmit}>
+                            <form id="addNewDateForm" className="hidden" onSubmit={handleDateSubmit}>
                                 <h4>Add another important date of {contact.first_name}'s</h4>
 
                                 <div className="mb-3">
@@ -176,8 +163,8 @@ function ContactCard ({contact}) {
                                 </div>
 
                                 <div className="mb-3">
-                                    <select class="form-select" aria-label="Default select example" name="date_type" onChange={handleDateChange}>
-                                        <option selected>What's the occasion?</option>
+                                    <select className="form-select" aria-label="Default select example" name="date_type" onChange={handleDateChange}>
+                                        <option defaultValue>What's the occasion?</option>
                                         <option value="birthday">Birthday</option>
                                         <option value="anniversary">Anniversary</option>
                                         <option value="graduation">Graduation</option>
@@ -208,8 +195,8 @@ function ContactCard ({contact}) {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary"  data-bs-dismiss="modal" onClick={closeModal}>Close</button>
-                            <button type="button" className="btn btn-warning" onClick={handleAddDateClick}>Add</button>
-                            <button type="button" className="btn btn-danger" onClick={handleDeleteContact}>Delete</button>
+                            <button type="button" className="btn btn-warning" onClick={handleAddDateClick}>Add New Date</button>
+                            <button type="button" className="btn btn-danger" onClick={handleDeleteContact}>Delete Contact</button>
                         </div>
                     </div>
                 </Modal>

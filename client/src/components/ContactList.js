@@ -8,20 +8,20 @@ function ContactList ({currentUser, contacts }) {
     let navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newContactFormData, setNewContactFormData] = useState({
-        first_name:  null,
-        last_name:  null,
-        user_id: currentUser ? currentUser.id : null,
-        image_url: null,
-        notes: null,
+        first_name:  "",
+        last_name:  "",
+        user_id: currentUser ? currentUser.id : "",
+        image_url: "",
+        notes: "",
     })
     const [contactID, setContactID] = useState(null)
     const [newBirthdayFormData, setNewBirthdayFormData] = useState({
-        contact_id: null,
-        date: null,
+        contact_id: "",
+        date: "",
         date_type: "birthday",
-        date_title: null,
-        image_url: null,
-        notes: null
+        date_title: "",
+        image_url: "",
+        notes: ""
     })
 
     // console.log(currentUser)
@@ -30,8 +30,6 @@ function ContactList ({currentUser, contacts }) {
 
     function renderContacts () {
         const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
-
-        // console.log(userContacts)
 
         return (
             userContacts.map( contact => {
@@ -42,23 +40,10 @@ function ContactList ({currentUser, contacts }) {
 
         )
 
-        // function filterContacts () {
-
-        // }
-
-        // return (
-        //         contacts.map( contact => {
-        //             return (
-        //                 <ContactCard key={contact.id} contact={contact} />
-        //             )
-        //         })
-    
-        //     )
-
     }
 
 
-    function handleContactChange (event) {
+    function handleContactInputChange (event) {
 
         setNewContactFormData({
             ...newContactFormData, [event.target.name]: event.target.value, user_id: currentUser.id
@@ -176,22 +161,22 @@ function ContactList ({currentUser, contacts }) {
                                     <form onSubmit={handleContactSubmit}>
                                         <div className="mb-3">
                                             <label className="form-label">First Name</label>
-                                            <input type="text" className="form-control" name="first_name" onChange={handleContactChange} value={newContactFormData.first_name} />
+                                            <input type="text" className="form-control" name="first_name" onChange={handleContactInputChange} value={newContactFormData.first_name} />
                                         </div>
 
                                         <div className="mb-3">
                                             <label className="form-label">Last Name</label>
-                                            <input type="text" className="form-control" name="last_name" onChange={handleContactChange} value={newContactFormData.last_name} />
+                                            <input type="text" className="form-control" name="last_name" onChange={handleContactInputChange} value={newContactFormData.last_name} />
                                         </div>
 
                                         <div className="mb-3">
                                             <label className="form-label">Profile Pic</label>
-                                            <input type="text" className="form-control" name="image_url" onChange={handleContactChange} value={newContactFormData.image_url} />
+                                            <input type="text" className="form-control" name="image_url" onChange={handleContactInputChange} value={newContactFormData.image_url} />
                                         </div>
 
                                         <div className="mb-3">
                                             <label className="form-label">Notes</label>
-                                            <input type="textarea" placeholder="jot down anything you need to remember here" className="form-control" name="notes" onChange={handleContactChange} value={newContactFormData.notes} />
+                                            <input type="textarea" placeholder="jot down anything you need to remember here" className="form-control" name="notes" onChange={handleContactInputChange} value={newContactFormData.notes} />
                                         </div>
                                     </form>
 

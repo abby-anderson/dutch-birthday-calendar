@@ -54,7 +54,7 @@ date_types = ["anniversary", "graduation", "wedding"]
                 contact_id: contact.id,
                 date: Faker::Date.birthday(min_age: 20, max_age: 100),
                 date_type: "birthday", 
-                date_title: "#{contact.first_name}'s birthday!",
+                date_title: "#{contact.first_name}'s birthday",
                 notes: "Idea - sign up for a #{Faker::Hobby.activity} class for their birthday this year!",
                 image_url: Faker::LoremFlickr.image(size: "#{rand(250..300)}x#{rand(250..300)}", search_terms: ['invitation']),
             )

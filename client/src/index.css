@@ -89,3 +89,13 @@ form {
   display: none;
 }
 
+div .img-thumbnail-container {
+  max-width: 300px;
+}
+
+div .calendar {
+  font-size: var(--fc-small-font-size, .75em);
+  white-space: normal;
+  /* overflow-wrap: break-word; */
+  word-break: break-word;
+}
