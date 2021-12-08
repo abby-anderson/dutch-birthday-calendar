@@ -21,9 +21,20 @@ class Api::UsersController < ApplicationController
         end
     end
 
+    # PATCH /api/update
+    def update
+        current_user = User.find(params[:id])
+        current_user.update(update_params)
+        render json: current_user, status: :ok
+    end
+
     private
 
     def user_params
         params.permit(:username, :first_name, :last_name, :password, :password_confirmation, :email, :phone_number, :image_url)
+    end
+
+    def update_params
+        params.permit(:first_name, :last_name, :email, :phone_number, :image_url, :id)
     end
 end

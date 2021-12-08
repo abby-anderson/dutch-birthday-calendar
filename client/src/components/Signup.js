@@ -70,7 +70,7 @@ function Signup ({setCurrentUser}) {
     return (
         <div className="signup-component">
 
-            <form onSubmit={handleSubmit}>
+            <form className="signup-login-form" onSubmit={handleSubmit}>
 
             <div class="mb-3">
                 <label class="form-label">First Name</label>

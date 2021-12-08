@@ -10,6 +10,7 @@ import ContactList from './ContactList';
 import Calendar from './Calendar';
 
 function App() {
+  const [reload, setReload] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
   const [contacts, setContacts] = useState(null)
   const [events, setEvents] = useState("")
@@ -21,7 +22,7 @@ function App() {
     .then(response => {
       if (response.ok) {
         response.json().then(data => {
-          console.log(data)
+          console.log('from app useeffect', data)
           setCurrentUser(data)
         })
       }
@@ -78,7 +79,7 @@ function App() {
             
           <Route path="/signup" element={<Signup setCurrentUser={setCurrentUser} />} />
 
-          <Route path="/userProfile" element={<UserProfile currentUser={currentUser} />} />
+          <Route path="/userProfile" element={<UserProfile currentUser={currentUser} setCurrentUser={setCurrentUser} reload={reload} setReload={setReload} />} />
             
           <Route path="/contactList" element={<ContactList 
           contacts={contacts} currentUser={currentUser} />} />

@@ -24,7 +24,7 @@ function Calendar ({contacts, currentUser, handleEvents}) {
 
         let parsedContacts = filteredContacts.map(contact => {
             return contact.important_dates.map( date => {
-                    let this_year = "2021"
+                    let this_year = new Date().getFullYear().toString()
                     let original_date = date.date
                     let sliced_date = original_date.slice(4)
                     let new_date = this_year.concat(sliced_date)

@@ -144,7 +144,7 @@ function ContactCard ({contact}) {
                             {/* also make sure to uncomment this!! */}
                             {renderImportantDatesInModal()}
 
-            {/* form to add a new important date, is hidden until user clicks add button in modal */}
+                        {/* form to add a new important date, is hidden until user clicks add button in modal */}
                             <form id="addNewDateForm" className="hidden" onSubmit={handleDateSubmit}>
                                 <h4>Add another important date of {contact.first_name}'s</h4>
 

@@ -52,7 +52,7 @@ function Login ({setCurrentUser}) {
 
     return (
         <div className="login-component">
-            <form onSubmit={handleSubmit}>
+            <form className="signup-login-form" onSubmit={handleSubmit}>
                 <div class="mb-3">
                     <label for="exampleInputUsername1" class="form-label">Username</label>
                     <input type="username" class="form-control" id="exampleInputUsername1" name="username" value={loginFormData.username} onChange={handleChange} />
