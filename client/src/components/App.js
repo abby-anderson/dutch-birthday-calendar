@@ -78,9 +78,9 @@ function App() {
             
           <Route path="/signup" element={<Signup setCurrentUser={setCurrentUser} />} />
 
-          <Route path="/userprofile" element={<UserProfile currentUser={currentUser} />} />
+          <Route path="/userProfile" element={<UserProfile currentUser={currentUser} />} />
             
-          <Route path="/contactlist" element={<ContactList 
+          <Route path="/contactList" element={<ContactList 
           contacts={contacts} currentUser={currentUser} />} />
 
           <Route path="/calendar" element={<Calendar 
