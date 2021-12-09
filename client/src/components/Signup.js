@@ -114,7 +114,7 @@ function Signup ({setCurrentUser}) {
                 
                 </div>
 
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-outline-dark">Submit</button>
             </form>
 
             {!!errors ? renderErrors() : null }

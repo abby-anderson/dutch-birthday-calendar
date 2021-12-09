@@ -1,28 +1,33 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@font-face {
+  font-family: "Magilio";
+  src: local("MagilioRegular"), url("./fonts/magilio-font/MagilioRegular-Yzv2O.ttf") format("truetype");
+  font-weight: regular;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+
+@font-face {
+  font-family: "Wagon";
+  src: local("Wagon-Bold"), url("./fonts/Wagon-free-personal-Use/Wagon-Free-Personal-Use/Wagon-Bold.otf") format("opentype");
+  font-weight: regular;
 }
+
 
 .app {
-  background-color: aliceblue;
+  background-color:#ffe0b3;
+
+  /* background-color:#dfbf9f; */
   /* text-align: center; */
   min-height: 100vh;
   /* display: flex; */
   /* flex-direction: column; */
   /* align-items: center; */
-  font-size: calc(10px + 2vmin);
+
+  font-family: "Magilio";
+  /* font-family: "Wagon"; */
 }
 
 .home {
+  font-size: calc(10px + 3vmin);
   text-align: center;
   min-height: 70vh;
   display: flex;
@@ -32,8 +37,11 @@ code {
 }
 
 .navbar {
+  /* background-color: tomato; */
+  /* background-color: #ffbeb3; */
   /* display: flex; */
-  margin-bottom: 30px;  
+  margin-bottom: 30px;
+  font-size: calc(10px + 2vmin);
   /* justify-content: space-between;
   flex-direction: column;
   text-align: left; */
@@ -83,9 +91,9 @@ code {
 }
 
 .contact-individual {
-  border: 2px groove blue;
+  border: 2px groove #4d2e00;
   border-radius: 5px;
-  background-color: whitesmoke;
+  background-color:  #fff5e6;
   margin: 25px;
   padding: 25px 50px;
 }

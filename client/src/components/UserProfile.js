@@ -71,19 +71,45 @@ function UserProfile ({currentUser, setCurrentUser, reload, setReload}) {
 
     return (
         <div className="container">
-            <div className="button-container">
-                <button id="edit-profile-button" type="button" className="btn btn-primary" onClick={handleClick}>Edit</button>
-            </div>
 
-            <div className="user-profile">
+
+        <div className="row justify-content-evenly">
+            <div class="col-4">
+                <h3>Welcome, {currentUser.first_name}!</h3>
+                <br /><br />
+                <img src={currentUser.image_url}/>
+                <p><i>Your current profile picture</i></p>
+            </div>
+            <div class="col-4">
+                <h3>Here's your saved info:</h3>
+                <br /><br />
+                <h4>First name: {currentUser.first_name}</h4>
+                <h4>Last name: {currentUser.last_name}</h4>
+                <br />
+                <h4>Email: {currentUser.email}</h4>
+                <h4>Phone: {currentUser.phone_number}</h4>
+                <br />
+                <h4>Username: {currentUser.username}</h4>
+
+            </div>
+        </div>
+
+
+
+
+            {/* <div className="user-profile">
                 <img src={currentUser.image_url}/>
                 <h4>First name: {currentUser.first_name}</h4>
                 <h4>Last name: {currentUser.last_name}</h4>
                 <br />
                 <h4>Email: {currentUser.email}</h4>
-                <h4>Phone number: {currentUser.phone_number}</h4>
+                <h4>Phone: {currentUser.phone_number}</h4>
                 <br />
                 <h4>Username: {currentUser.username}</h4>
+            </div> */}
+
+            <div className="button-container">
+                <button id="edit-profile-button" type="button" className="btn btn-outline-dark" onClick={handleClick}>Edit</button>
             </div>
 
             <div>
@@ -113,7 +139,7 @@ function UserProfile ({currentUser, setCurrentUser, reload, setReload}) {
                         <input className="form-control" type="text" name="image_url" onChange={handleChange} value={editUserData.image_url} />
                     </div>
 
-                    <button type="submit" className="btn btn-primary">Submit</button>
+                    <button type="button" className="btn btn-outline-dark">Submit</button>
                 </form>
             </div>
         </div>

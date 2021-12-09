@@ -140,11 +140,13 @@ function ContactList ({currentUser, contacts }) {
 
 
     return (
-        <>
-            <div className="contact-container container ">
-                <button type="button" className="btn btn-primary" onClick={openModal}>
+        <div className="container">
+            <div className="button-container">
+                <button type="button" className="btn btn-outline-dark" onClick={openModal}>
                     Add a new contact
                 </button>                
+            </div>
+            <div className="contact-container container">
                 {renderContacts()}
             </div>
 
@@ -224,7 +226,7 @@ function ContactList ({currentUser, contacts }) {
                     </Modal>
                 </div>
 
-        </>
+        </div>
     )
 }
 

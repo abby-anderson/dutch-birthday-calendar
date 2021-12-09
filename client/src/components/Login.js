@@ -61,7 +61,7 @@ function Login ({setCurrentUser}) {
                     <label for="exampleInputPassword1" class="form-label">Password</label>
                     <input type="password" class="form-control" id="exampleInputPassword1" name="password" value={loginFormData.password} onChange={handleChange}  />
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-outline-dark">Submit</button>
             </form>
 
             {!!error > 0 ? 

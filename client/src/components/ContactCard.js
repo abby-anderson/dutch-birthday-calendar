@@ -118,12 +118,12 @@ function ContactCard ({contact}) {
     }
 
     return (
-        <div>
+        <div className="container">
             <div className="contact-individual">
                 <h1>{contact.first_name} {contact.last_name}</h1>
                 {/* also make sure to uncomment this!! */}
                 {getBirthdayAndAge()}
-                <button onClick={openModal}>Expand</button>
+                <button type="button" className="btn btn-outline-dark" onClick={openModal}>Expand</button>
             </div>
 
 
