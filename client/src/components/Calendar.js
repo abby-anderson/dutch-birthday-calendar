@@ -28,8 +28,13 @@ function Calendar ({contacts, currentUser, handleEvents}) {
                     let original_date = date.date
                     let sliced_date = original_date.slice(4)
                     let new_date = this_year.concat(sliced_date)
+                    let new_date_time = new_date.concat(" 00:00:00")
 
-                return {title: date.date_title, date: new Date(new_date), allDay: true, extendedProps: date}
+                    // console.log(new_date)
+                    // console.log(new_date_time)
+                    // console.log(new Date(new_date_time))
+
+                return {title: date.date_title, date: new Date(new_date_time), allDay: true, extendedProps: date}
             })
         })
     
@@ -46,13 +51,14 @@ function Calendar ({contacts, currentUser, handleEvents}) {
     }
 
     return (
-        <div>
+        <div className="container">
 
             <div className="calendar">
                 {!!eventArray ? 
                 <FullCalendar 
                     plugins={[ interactionPlugin, dayGridPlugin ]}
                     initialView="dayGridMonth"
+                    timeZone="local"
                     // editable={true}
                     selectable={true}
                     events={eventArray}

@@ -80,23 +80,47 @@ function ContactCard ({contact}) {
         return (
             contact.important_dates.map( date => {
                 return (
-                    <div>
-                        <br />
-                        <h4>{date.date_title}</h4>
-                        <h5>Date: {date.date}</h5>
+                    // <div className="container">
+                    //     <br />
+                    //     <h4>{date.date_title}</h4>
+                    //     <h5>Date: {date.date}</h5>
 
-                        <p>Notes: {date.notes}</p>
-                        <p>Picture of invitation:</p>
-                        <div className="img-thumbnail-container">
-                            <img className="img-thumbnail" src={date.image_url} alt="pic of invitation" />
+                    //     <p>Notes: {date.notes}</p>
+                    //     <p>Picture of invitation:</p>
+                    //     <div className="img-thumbnail-container">
+                    //         <img id="important-date-image" className="img-thumbnail" src={date.image_url} alt="pic of invitation" />
+                    //     </div>
+                    //     <br /><br />
+                    // </div>
+
+                    <div className="row justify-content-evenly">
+                        <br />
+                        <div class="col-4">
+                            <div className="img-thumbnail-container">
+                                <img id="important-date-image" className="img-thumbnail" src={date.image_url} alt="pic of invitation" />
+                            </div>
+                            <p><i>Picture of the invitation</i></p>
                         </div>
-                        <br /><br />
+                        <div class="col-4">
+                            <h4>{date.date_title}</h4>
+                            <h5>Date: {date.date}</h5>
+                            <br />
+                            <p>Notes: {date.notes}</p>
+                        </div>
                     </div>
                 )
             })
 
         )
     }
+
+    
+
+
+
+
+
+
         
     const result = contact.important_dates.filter(eachObj => eachObj.date_type === "birthday")
     const contact_birthday = result[0].date
@@ -127,7 +151,7 @@ function ContactCard ({contact}) {
             </div>
 
 
-            <div className="modal-dialog modal-sm">
+            <div id="expanded-card-modal" className="modal-dialog modal-sm">
                 <Modal isOpen={modalIsOpen} >
                     <div className="modal-content">
                         <div className="modal-header">
@@ -141,8 +165,12 @@ function ContactCard ({contact}) {
                         </div>
                         <div className="modal-body">
                             <h3 className="modal-title">{contact.first_name}'s Important Dates:</h3>
+                            <br />
+
                             {/* also make sure to uncomment this!! */}
                             {renderImportantDatesInModal()}
+
+                        <br /><br />
 
                         {/* form to add a new important date, is hidden until user clicks add button in modal */}
                             <form id="addNewDateForm" className="hidden" onSubmit={handleDateSubmit}>
@@ -189,14 +217,14 @@ function ContactCard ({contact}) {
                                     />
                                 </div>
 
-                                <input type="submit" value="Save" />
+                                <button type="submit" className="btn btn-sm btn-outline-dark">Save</button>
 
                             </form>
                         </div>
                         <div className="modal-footer">
-                            <button type="button" className="btn btn-primary"  data-bs-dismiss="modal" onClick={closeModal}>Close</button>
-                            <button type="button" className="btn btn-warning" onClick={handleAddDateClick}>Add New Date</button>
-                            <button type="button" className="btn btn-danger" onClick={handleDeleteContact}>Delete Contact</button>
+                            <button type="button" className="btn btn-sm btn-outline-primary"  data-bs-dismiss="modal" onClick={closeModal}>Close</button>
+                            <button type="button" className="btn btn-sm btn-outline-warning" onClick={handleAddDateClick}>Add New Date</button>
+                            <button type="button" className="btn btn-sm btn-outline-danger" onClick={handleDeleteContact}>Delete Contact</button>
                         </div>
                     </div>
                 </Modal>

@@ -108,13 +108,28 @@
   display: none;
 }
 
-div .img-thumbnail-container {
+/* div .img-thumbnail-container {
   max-width: 300px;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+} */
+
+/* img .img-thumbnail #important-date-image {
+  max-width: 100px;
+} */
 
 div .calendar {
-  font-size: var(--fc-small-font-size, .75em);
+  /* font-size: var(--fc-small-font-size, .75em); */
   white-space: normal;
   /* overflow-wrap: break-word; */
   word-break: break-word;
+}
+
+div .modal-content {
+    background-color: #fff5e6;
+    align-items: center;
+    text-align: center;
+    font-family: "Magilio";
+
 }

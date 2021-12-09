@@ -151,7 +151,7 @@ function ContactList ({currentUser, contacts }) {
             </div>
 
                 {/* modal form opens when 'add new contact' button is clicked */}
-                <div className="modal-dialog modal-sm">
+                <div className="modal-dialog">
                     <Modal currentUser={currentUser} isOpen={modalIsOpen} >
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -160,7 +160,7 @@ function ContactList ({currentUser, contacts }) {
 
                                 <div className="modal-body">
                                     {/* this part of the form adds the new Contact object */}
-                                    <form onSubmit={handleContactSubmit}>
+                                    <form className="signup-login-form" onSubmit={handleContactSubmit}>
                                         <div className="mb-3">
                                             <label className="form-label">First Name</label>
                                             <input type="text" className="form-control" name="first_name" onChange={handleContactInputChange} value={newContactFormData.first_name} />

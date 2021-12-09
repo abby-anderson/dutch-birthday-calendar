@@ -24,7 +24,8 @@ class Api::UsersController < ApplicationController
     # PATCH /api/update
     def update
         current_user = User.find(params[:id])
-        current_user.update(update_params)
+        # byebug;
+        current_user.update!(update_params)
         render json: current_user, status: :ok
     end
 

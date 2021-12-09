@@ -25,7 +25,8 @@ function UserProfile ({currentUser, setCurrentUser, reload, setReload}) {
 
     function handleChange (event) {
         setEditUserData({
-            ...editUserData, [event.target.name]:event.target.value, id: currentUser.id
+            ...editUserData, [event.target.name]:event.target.value, 
+            id: currentUser.id
         })
         // if (event.target.name === "first_name") {
 
@@ -139,7 +140,7 @@ function UserProfile ({currentUser, setCurrentUser, reload, setReload}) {
                         <input className="form-control" type="text" name="image_url" onChange={handleChange} value={editUserData.image_url} />
                     </div>
 
-                    <button type="button" className="btn btn-outline-dark">Submit</button>
+                    <button type="submit" className="btn btn-outline-dark">Submit</button>
                 </form>
             </div>
         </div>
