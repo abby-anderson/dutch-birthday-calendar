@@ -17,10 +17,6 @@ function ContactCard ({contact}) {
     })
 
     function handleDeleteContact () {
-        console.log('clicked delete', contact)
-
-        // fetch delete 
-        // redirect to /contactlist
         fetch(`/api/contacts/${contact.id}`, {
             method: "DELETE"
         })
@@ -34,14 +30,12 @@ function ContactCard ({contact}) {
         setNewDateForm({
             ...newDateForm, [event.target.name]: event.target.value
         })
-
     }
 
     function handleDateSubmit (event) {
         event.preventDefault();
-        console.log(newDateForm)
 
-        // fetch POST to importantdatescontroller #create method
+        // fetch POST to importantdates controller #create method
         fetch('/api/important_dates', {
             method: "POST",
             headers: {
@@ -58,14 +52,11 @@ function ContactCard ({contact}) {
                 })
             }
         })
-
     }
 
     function handleAddDateClick () {
-        console.log('clicked edit', contact)
         let form = document.getElementById('addNewDateForm')
         form.classList.toggle('hidden')
-        
     }
 
     function openModal () {
@@ -80,19 +71,6 @@ function ContactCard ({contact}) {
         return (
             contact.important_dates.map( date => {
                 return (
-                    // <div className="container">
-                    //     <br />
-                    //     <h4>{date.date_title}</h4>
-                    //     <h5>Date: {date.date}</h5>
-
-                    //     <p>Notes: {date.notes}</p>
-                    //     <p>Picture of invitation:</p>
-                    //     <div className="img-thumbnail-container">
-                    //         <img id="important-date-image" className="img-thumbnail" src={date.image_url} alt="pic of invitation" />
-                    //     </div>
-                    //     <br /><br />
-                    // </div>
-
                     <div className="row justify-content-evenly">
                         <br />
                         <div class="col-4">
@@ -110,17 +88,8 @@ function ContactCard ({contact}) {
                     </div>
                 )
             })
-
         )
     }
-
-    
-
-
-
-
-
-
         
     const result = contact.important_dates.filter(eachObj => eachObj.date_type === "birthday")
     const contact_birthday = result[0].date
@@ -136,7 +105,6 @@ function ContactCard ({contact}) {
                 <div>
                     <p>Born on {contact_birthday}</p>
                     <p>Turning {calculatedAge} this year!</p>
-
                 </div>
             )
     }
@@ -145,11 +113,9 @@ function ContactCard ({contact}) {
         <div className="container">
             <div className="contact-individual">
                 <h1>{contact.first_name} {contact.last_name}</h1>
-                {/* also make sure to uncomment this!! */}
                 {getBirthdayAndAge()}
                 <button type="button" className="btn btn-outline-dark" onClick={openModal}>Expand</button>
             </div>
-
 
             <div id="expanded-card-modal" className="modal-dialog modal-sm">
                 <Modal isOpen={modalIsOpen} >
@@ -160,19 +126,14 @@ function ContactCard ({contact}) {
                         <div className="modal-body">
                             <img src={contact.image_url} className="img-thumbnail" />
                             <h3>{contact.first_name} {contact.last_name} (<i>{contact.notes}</i>)</h3>
-                            {/* also make sure to uncomment this!! */}
                             <h3>Birthdate: {contact_birthday}</h3>
                         </div>
                         <div className="modal-body">
                             <h3 className="modal-title">{contact.first_name}'s Important Dates:</h3>
                             <br />
-
-                            {/* also make sure to uncomment this!! */}
                             {renderImportantDatesInModal()}
+                            <br /><br />
 
-                        <br /><br />
-
-                        {/* form to add a new important date, is hidden until user clicks add button in modal */}
                             <form id="addNewDateForm" className="hidden" onSubmit={handleDateSubmit}>
                                 <h4>Add another important date of {contact.first_name}'s</h4>
 
@@ -221,6 +182,7 @@ function ContactCard ({contact}) {
 
                             </form>
                         </div>
+
                         <div className="modal-footer">
                             <button type="button" className="btn btn-sm btn-outline-primary"  data-bs-dismiss="modal" onClick={closeModal}>Close</button>
                             <button type="button" className="btn btn-sm btn-outline-warning" onClick={handleAddDateClick}>Add New Date</button>
@@ -229,8 +191,6 @@ function ContactCard ({contact}) {
                     </div>
                 </Modal>
             </div>
-
-
         </div>
         )
 }

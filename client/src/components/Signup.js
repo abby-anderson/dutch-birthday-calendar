@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
-
 function Signup ({setCurrentUser}) {
     let navigate = useNavigate();
     const [errors, setErrors] = useState([])
@@ -21,14 +20,12 @@ function Signup ({setCurrentUser}) {
         setSignupFormData({
             ...signupFormData, [event.target.name]: event.target.value
         })
-
     }
     
     function handleSubmit (event) {
         event.preventDefault();
-        console.log(signupFormData)
 
-        // then fetch post route /signup to userscontroller #create method
+        //fetch POST route /signup to userscontroller #create method
         fetch('/api/signup', {
             method: 'POST',
             headers: {
@@ -39,16 +36,12 @@ function Signup ({setCurrentUser}) {
         .then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    console.log('signup object from successful fetch post', data)
                     setCurrentUser(data)
                     navigate('/')
                 })
-            }
-            else {
+            } else {
                 response.json().then(errors => {
-                    console.log('should be errors from fetch else', errors.errors)
                     setErrors(errors.errors)
-                    // will want to map through this array to display each error message later
                 })
             }
         })
@@ -63,24 +56,22 @@ function Signup ({setCurrentUser}) {
                     </div>
                 )
             })
-
         )
     }
 
     return (
         <div className="signup-component">
-
             <form className="signup-login-form" onSubmit={handleSubmit}>
 
-            <div class="mb-3">
-                <label class="form-label">First Name</label>
-                <input type="text" class="form-control" name="first_name" onChange={handleChange} value={signupFormData.first_name} />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control" name="first_name" onChange={handleChange} value={signupFormData.first_name} />
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Last Name</label>
-                <input type="text" class="form-control" name="last_name" onChange={handleChange} value={signupFormData.last_name} />
-            </div>
+                <div class="mb-3">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="last_name" onChange={handleChange} value={signupFormData.last_name} />
+                </div>
 
                 <div class="mb-3">
                     <label class="form-label">Email address</label>

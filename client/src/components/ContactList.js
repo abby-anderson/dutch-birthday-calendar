@@ -1,11 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import Modal from 'react-modal'
-import { useState, useEffect } from "react";
 import ContactCard from "./ContactCard";
-import { Navigate, useNavigate } from "react-router";
 
 function ContactList ({currentUser, contacts }) {
-    let navigate = useNavigate();
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [newContactFormData, setNewContactFormData] = useState({
         first_name:  "",
@@ -14,7 +11,6 @@ function ContactList ({currentUser, contacts }) {
         image_url: "",
         notes: "",
     })
-    const [contactID, setContactID] = useState(null)
     const [newBirthdayFormData, setNewBirthdayFormData] = useState({
         contact_id: "",
         date: "",
@@ -24,36 +20,25 @@ function ContactList ({currentUser, contacts }) {
         notes: ""
     })
 
-    // console.log(currentUser)
-    // console.log(contacts)
-
-
     function renderContacts () {
         const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
-
         return (
             userContacts.map( contact => {
                 return (
                     <ContactCard key={contact.id} contact={contact} />
                 )
             })
-
         )
-
     }
 
-
     function handleContactInputChange (event) {
-
         setNewContactFormData({
             ...newContactFormData, [event.target.name]: event.target.value, user_id: currentUser.id
         })
     }
 
     function handleContactSubmit (event) {
-        event.preventDefault();
-        console.log(newContactFormData)
-        
+        event.preventDefault();        
 
         // fetch POST route to /api/contacts, which is the contactscontroller #create method
         fetch('api/contacts', {
@@ -64,11 +49,8 @@ function ContactList ({currentUser, contacts }) {
             body: JSON.stringify(newContactFormData)
         })
         .then(response => {
-            console.log(response)
-
             if (response.ok) {
                 response.json().then(data => {
-                    console.log('added contact and heres the response data', data)
                     setNewBirthdayFormData({
                         ...newBirthdayFormData, contact_id: data.id, 
                     })
@@ -83,17 +65,14 @@ function ContactList ({currentUser, contacts }) {
                 })
             } else {
                 response.json().then(error => {
-                    console.log('errors from failed new contact post', error.error)
                     alert(error.error)
                 })
             }
         })
-        
     }
     
     function handleBirthdaySubmit (event) {
         event.preventDefault();
-        console.log(newBirthdayFormData)
 
         // fetch POST to importantdatescontroller #create method
         fetch('/api/important_dates', {
@@ -106,7 +85,6 @@ function ContactList ({currentUser, contacts }) {
         .then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    console.log(data)
                     closeModal()
                     window.location.reload()
                 })
@@ -120,8 +98,6 @@ function ContactList ({currentUser, contacts }) {
         })
     }
 
-
-
     function openModal () {
         setModalIsOpen(true)
     }
@@ -130,14 +106,11 @@ function ContactList ({currentUser, contacts }) {
         setModalIsOpen(false)
     }
 
-
-
     if (!contacts) {
         return (
             <h2>...Loading 🧘‍♀️ </h2>
         )
     }
-
 
     return (
         <div className="container">
@@ -225,7 +198,6 @@ function ContactList ({currentUser, contacts }) {
                             </div>
                     </Modal>
                 </div>
-
         </div>
     )
 }

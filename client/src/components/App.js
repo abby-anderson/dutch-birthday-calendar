@@ -37,39 +37,17 @@ function App() {
 
         setContacts(data)
 
-        // if (currentUser) {
-        //   const userContacts = data.filter( contact => contact.user_id === currentUser.id)
-        //   console.log(userContacts)
-        //   setContacts(userContacts)
-
-        // }
       })
   }, [])
-
-  // function filterContacts () {
-
-
-  //   console.log(contacts)
-  
-  //   // const userContacts = contacts.filter( contact => contact.user_id === currentUser.id)
-  //   // console.log(userContacts)
-  //   // setFilteredContacts(userContacts)
-
-  
-
-  // }
 
   function handleEvents (eventsArray) {
     setEvents(eventsArray)
   }
 
-
-
   return (
     <div className="app">
 
       <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} />
-
 
         <Routes>
 

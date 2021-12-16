@@ -5,12 +5,10 @@ import { useNavigate } from 'react-router-dom';
 function Login ({setCurrentUser}) {
     let navigate = useNavigate();
     const [error, setError] = useState(null);
-
     const [loginFormData, setLoginFormData] = useState({
         username: "",
         password: "",
     })
-
 
     function handleChange (event) {
         setLoginFormData({
@@ -18,13 +16,10 @@ function Login ({setCurrentUser}) {
         })
     }
 
-
     function handleSubmit (event) {
         event.preventDefault();
 
-        console.log('clicked submit', loginFormData)
-
-        // sends to sessionscontroller #create method
+        // fetch POST to sessionscontroller #create method
         fetch('/api/login', {
             method: "POST",
             headers: {
@@ -35,20 +30,17 @@ function Login ({setCurrentUser}) {
         .then(response => {
             if (response.ok) {
                 response.json().then(data => {
-                    console.log('response is okay!', data)
                     setCurrentUser(data)
                     navigate('/')
                 })
             }
             else {
                 response.json().then(data => {
-                    console.log('response was not okay', data.error)
                     setError(data.error)
                 })
             }
         })
     }
-
 
     return (
         <div className="login-component">
@@ -69,7 +61,6 @@ function Login ({setCurrentUser}) {
             {error}
             </div>
             : null }
-
         </div>
     )
 }

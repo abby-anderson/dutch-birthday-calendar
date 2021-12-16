@@ -28,3 +28,9 @@ Next, navigate into the client folder, and run these commands to install fronten
 
 Now you are all set to log in to the app!
 
+## Demo
+To watch the brief 2-minute demo of this project, please follow this link to my Youtube video
+https://www.youtube.com/watch?v=LZgDyV5panM
+
+### Note
+Finally, please note that this project is a work in progress! I will continue adding and improving features as I level up my skills. Feel free to share any comments or suggestions with me!

@@ -1,7 +1,6 @@
 import React from "react";
 
 function NavBar ({currentUser, setCurrentUser}) {
-
     function handleLogout () {
 
         // fetch DELETE to /logout route in sessionscontroller #destroy method
@@ -11,11 +10,9 @@ function NavBar ({currentUser, setCurrentUser}) {
         .then(response => {
             if (response.ok) {
                 setCurrentUser(null);
-                console.log('successful delete logout!');
             }
         })
     }
-
 
     return (
         <div>
@@ -26,21 +23,19 @@ function NavBar ({currentUser, setCurrentUser}) {
                         <div className="navbar-nav">
                             <a className="nav-link" href="/">Home</a>
 
-                        {currentUser ?
-                            <>
-                                <a className="nav-link" href="/userProfile">My Profile</a>
-                                <a className="nav-link" href="/contactList">My Contacts</a>
-                                <a className="nav-link" href="/calendar">My Calendar</a>
-                                <a className="nav-link" href="/" onClick={handleLogout}>Logout</a>
-                            </> 
-                        :
-                            <>
-                                <a className="nav-link" href="/login">Log in</a>
-                                <a className="nav-link" href="/signup">Sign up</a>
-                            </>
-                        }
-                        
-
+                            {currentUser ?
+                                <>
+                                    <a className="nav-link" href="/userProfile">My Profile</a>
+                                    <a className="nav-link" href="/contactList">My Contacts</a>
+                                    <a className="nav-link" href="/calendar">My Calendar</a>
+                                    <a className="nav-link" href="/" onClick={handleLogout}>Logout</a>
+                                </> 
+                            :
+                                <>
+                                    <a className="nav-link" href="/login">Log in</a>
+                                    <a className="nav-link" href="/signup">Sign up</a>
+                                </>
+                            }
                     </div>
                 </div>
             </div>
