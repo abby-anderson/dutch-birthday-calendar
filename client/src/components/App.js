@@ -10,6 +10,7 @@ import ContactList from './ContactList';
 import Calendar from './Calendar';
 
 function App() {
+  const [loading, setLoading] = useState(true)
   const [reload, setReload] = useState(false)
   const [currentUser, setCurrentUser] = useState(null)
   const [contacts, setContacts] = useState(null)
@@ -36,6 +37,7 @@ function App() {
       .then(data => {
 
         setContacts(data)
+        setLoading(false)
 
       })
   }, [])
